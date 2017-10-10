@@ -1,19 +1,27 @@
 module Main where
 
-import Diagrams.Prelude
-import Diagrams.Backend.Reflex
-import Reflex
-import Reflex.Dom
+import Diagrams.Prelude hiding (text)
+import Diagrams.Backend.Miso
+import Miso hiding (update)
+import Miso.String (ms)
 
 main :: IO ()
-main = mainWidget app
+main = startApp (App 0 update viewModel [] defaultEvents NoOp)
 
-app :: MonadWidget t m => m ()
-app = do
-  ev <- reflexDia def (circle 100 # lc blue # lwL 2)
-  ct <- count . ffilter getAny $ diaMousedownEv ev
-  dynText =<< mapDyn counter ct
-  return ()
+data Action
+  = NoOp
+  | Inc
+
+dia :: QDiagram B V2 Double Any
+dia = circle 100 # lc blue # lwL 2
+
+viewModel :: Int -> View Action
+viewModel i =
+  div_ [] [misoDia def dia [onMouseDown' (\_ -> Inc)], (text . ms . counter) i]
+
+update :: Action -> Int -> Effect Action Int
+update NoOp i = noEff i
+update Inc i = noEff (i + 1)
 
 counter :: Int -> String
 counter i = "The circle has been clicked " ++ show i ++ " times"

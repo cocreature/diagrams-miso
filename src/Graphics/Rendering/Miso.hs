@@ -11,7 +11,7 @@
 
 -----------------------------------------------------------------------------
 -- |
--- Module      :  Graphics.Rendering.Reflex
+-- Module      :  Graphics.Rendering.Miso
 -- Copyright   :  (c) 2015 diagrams-reflex team (see LICENSE)
 -- License     :  BSD-style (see LICENSE)
 -- Maintainer  :  diagrams-discuss@googlegroups.com
@@ -20,7 +20,7 @@
 --
 -----------------------------------------------------------------------------
 
-module Graphics.Rendering.Reflex
+module Graphics.Rendering.Miso
     ( RenderM
     , Element(..)
     , Attrs

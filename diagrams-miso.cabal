@@ -1,0 +1,39 @@
+Name:                diagrams-miso
+Version:             0.1
+Synopsis:            miso backend for diagrams drawing EDSL.
+Homepage:            https://github.com/cocreature/diagrams-miso
+License:             BSD3
+License-file:        LICENSE
+Extra-source-files:  README.md, CHANGELOG.md
+Author:              Moritz Kiefer, Daniel Bergey
+Maintainer:          moritz.kiefer@purelyfunctional.org
+Bug-reports:         https://github.com/cocreature/diagrams-miso/issues
+Stability:           Experimental
+Category:            Graphics
+Build-type:          Simple
+Cabal-version:       >=1.10
+Description:         This package provides a modular backend for rendering
+                     diagrams created with the diagrams EDSL to dynamic inline SVGs.
+                     It uses @miso@.
+Source-repository head
+  type:     git
+  location: https://github.com/cocreature/diagrams-miso
+
+Library
+  Exposed-modules:     Diagrams.Backend.Miso
+  Other-modules:       Graphics.Rendering.Miso
+  Hs-source-dirs:      src
+  Build-depends:       aeson
+                     , base                 >= 4.9   && < 4.10
+                     , mtl                  >= 1     && < 2.3
+                     , colour >= 2.3.2 && < 2.4
+                     , diagrams-core        >= 1.4   && < 1.5
+                     , diagrams-lib         >= 1.4   && < 1.5
+                     , monoid-extras        >= 0.3   && < 0.5
+                     , miso                 >= 0.8
+                     , containers           >= 0.3   && < 0.6
+                     , lens                 >= 4.15   && < 4.16
+
+  Ghc-options:         -Wall
+
+  Default-language:  Haskell2010

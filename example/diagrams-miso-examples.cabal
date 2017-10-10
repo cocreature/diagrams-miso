@@ -1,8 +1,8 @@
-name:                diagrams-reflex-examples
+name:                diagrams-miso-examples
 version:             0.1.0.0
 -- synopsis:            
 -- description:         
-homepage:            https://github.com/bergey/gooey
+homepage:            https://github.com/cocreature/diagrams-miso
 license:             BSD3
 license-file:        LICENSE
 author:              Daniel Bergey
@@ -13,41 +13,37 @@ build-type:          Simple
 -- extra-source-files:  
 cabal-version:       >=1.10
 
-executable diagrams-reflex-counting
+executable diagrams-miso-counting
   main-is:             Counting.hs
-  -- other-modules:       Lib
   other-extensions:    JavaScriptFFI, CPP, OverloadedStrings
-  build-depends:       base >=4.7 && <4.9
+  build-depends:       base >=4.9 && < 5.0
                      , ghcjs-base
-                     , diagrams-lib >= 1.3 && < 1.4
-                     , diagrams-reflex
-                     , reflex-dom
-                     , reflex
+                     , diagrams-lib >= 1.4 && < 1.5
+                     , diagrams-miso
+                     , miso
   hs-source-dirs:      src
   default-language:    Haskell2010
 
-executable diagrams-reflex-follow
+executable diagrams-miso-follow
   main-is:             Follow.hs
-  -- other-modules:       Lib
   other-extensions:    JavaScriptFFI, CPP, OverloadedStrings
-  build-depends:       base >=4.7 && <4.9
+  build-depends:       base >=4.9 && < 5.0
+                     , containers
                      , ghcjs-base
-                     , diagrams-lib >= 1.3 && < 1.4
-                     , diagrams-reflex
-                     , reflex-dom
-                     , reflex
+                     , diagrams-lib >= 1.4 && < 1.5
+                     , diagrams-miso
+                     , miso
   hs-source-dirs:      src
   default-language:    Haskell2010
 
-executable diagrams-reflex-colors
+executable diagrams-miso-colors
   main-is:             Colors.hs
   other-extensions:    JavaScriptFFI, CPP, OverloadedStrings
-  build-depends:       base >=4.7 && <4.9
+  build-depends:       base >= 4.9 && < 5.0
                      , ghcjs-base
-                     , diagrams-lib >= 1.3 && < 1.4
-                     , diagrams-reflex
-                     , reflex-dom
-                     , reflex
+                     , diagrams-lib >= 1.4 && < 1.5
+                     , diagrams-miso
+                     , miso
   hs-source-dirs:      src
   default-language:    Haskell2010
   
