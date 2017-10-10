@@ -1,21 +1,18 @@
-diagrams-miso  [![Build Status](https://travis-ci.org/diagrams/diagrams-miso.png?branch=master)](http://travis-ci.org/diagrams/diagrams-miso)
-------------
-
+# diagrams-miso
 
 _diagrams-miso_ is a an SVG backend for [diagrams], to be used in
 the browser via [ghcjs]. Diagrams is a powerful, flexible, declarative
 domain-specific language for creating vector graphics, using the
 [Haskell programming language][haskell].
 
-[diagrams]: http://projects.haskell.org/diagrams/
-[haskell]: http://www.haskell.org/haskellwiki/Haskell
-[ghcjs]: https://github.com/ghcjs/ghcjs
+[diagrams](http://projects.haskell.org/diagrams/)
+[miso](https://github.com/dmjio/miso)
 
-# Examples
+## Examples
 
 The examples directory contains several simple examples.
 
-# Capabilities
+## Capabilities
 
 The following features are supported.  If they don't work as expected
 (or as other Diagrams Backends), please file a bug report.
@@ -34,3 +31,7 @@ The following features are supported.  If they don't work as expected
 These features are not yet implemented.  Pull requests welcome!
 
     - textures
+
+## Credits
+This package is heavily based on the excellent
+[diagrams-reflex](https://github.com/diagrams/diagrams-reflex).
