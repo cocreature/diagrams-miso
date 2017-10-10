@@ -24,45 +24,22 @@ module Graphics.Rendering.Miso
     ( RenderM
     , Element(..)
     , Attrs
-    -- , AttributeValue
-    -- , svgHeader
     , renderPath
-    -- , renderClip
     , renderText
-    -- , renderDImage
-    -- , renderDImageEmb
     , renderStyles
     , renderMiterLimit
-    -- , renderFillTextureDefs
-    -- , renderFillTexture
-    -- , renderLineTextureDefs
-    -- , renderLineTexture
-    -- , dataUri
     , getNumAttr
     ) where
 
--- from base
-import           Data.List                   (intercalate)
-#if __GLASGOW_HASKELL__ < 710
-import           Data.Foldable               (foldMap)
-#endif
+import           Data.List (intercalate)
 
--- from mtl
-import Control.Monad.Reader as R
-
--- from diagrams-lib
-import           Diagrams.Prelude            hiding (Attribute, Render, with, text)
-import           Diagrams.TwoD.Path          (getFillRule)
-import           Diagrams.TwoD.Text
-import           Diagrams.Core.Transform     (matrixHomRep)
-
--- from containers
-import Data.Map (Map)
+import           Control.Monad.Reader as R
+import           Data.Map (Map)
 import qualified Data.Map as M
-
--- from base64-bytestring, bytestring
--- import qualified Data.ByteString.Base64.Lazy as BS64
--- import qualified Data.ByteString.Lazy.Char8  as BS8
+import           Diagrams.Core.Transform (matrixHomRep)
+import           Diagrams.Prelude hiding (Attribute, Render, with, text)
+import           Diagrams.TwoD.Path (getFillRule)
+import           Diagrams.TwoD.Text
 
 data Element = Element
                String

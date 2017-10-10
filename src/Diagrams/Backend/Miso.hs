@@ -39,41 +39,30 @@ module Diagrams.Backend.Miso
   , svgAttributes
   -- ,svgDefinitions, idPrefix, svgAttributes, generateDoctype
   , misoDia
-  , onMouseDown'
   , onMouseDown
+  , onMouseDown'
+  , onMouseUp
+  , onMouseUp'
   , onMouseMove
+  , onMouseMove'
   ) where
 
-import Data.Bifunctor
-import Data.Aeson hiding (Options, Result)
-
-import           Data.Tree
-
--- from base
+import           Control.Lens hiding (children, transform, ( # ))
 import           Control.Monad.Reader
-
--- from lens
-import           Control.Lens             hiding (children, transform, ( # ))
-
--- from diagrams-core
-import           Diagrams.Core.Compile
-import           Diagrams.Core.Types      (Annotation (..))
-
--- from diagrams-lib
-import           Diagrams.Prelude         hiding (Attribute, size, view, local, text)
-import           Diagrams.TwoD.Adjust     (adjustDia2D)
-import           Diagrams.TwoD.Text (Text(..))
-
--- from containers
+import           Data.Aeson hiding (Options, Result)
+import           Data.Bifunctor
 import qualified Data.Map as M
+import           Data.Tree
+import           Diagrams.Core.Compile
+import           Diagrams.Core.Types (Annotation (..))
+import           Diagrams.Prelude hiding (Attribute, size, view, local, text, query)
+import           Diagrams.TwoD.Adjust (adjustDia2D)
+import           Diagrams.TwoD.Text (Text(..))
+import           Miso hiding (Options, view, Result, onMouseDown, onMouseUp)
+import           Miso.String (MisoString, ms)
 
--- from miso
-import Miso hiding (Options, view, Result, onMouseDown)
-import Miso.String (MisoString, ms)
-
--- from this package
-import           Graphics.Rendering.Miso   (RenderM)
-import qualified Graphics.Rendering.Miso   as R
+import           Graphics.Rendering.Miso (RenderM)
+import qualified Graphics.Rendering.Miso as R
 
 nodeSvg_ :: MisoString -> [Attribute action] -> [View action] -> View action
 nodeSvg_ = flip (node SVG) Nothing
@@ -152,36 +141,44 @@ mouseEventDecoder =
     (withObject "event" $ \o -> liftA2 (,) (o .: "clientX") (o .: "clientY"))
     mempty
 
-onMouseDown :: (P2 Double -> action) -> DiaAttr a action
-onMouseDown f =
+query :: Monoid a => MisoString -> (a -> action) -> DiaAttr a action
+query event f =
   DiaAttr
     (\dia t ->
        on
-         "mousedown"
+         event
+         mouseEventDecoder
+         (f . sample dia . transform (inv t) . fmap fromIntegral . p2))
+
+pos :: MisoString -> (P2 Double -> action) -> DiaAttr a action
+pos event f =
+  DiaAttr
+    (\_dia t ->
+       on
+         event
          mouseEventDecoder
          (f . transform (inv t) . fmap fromIntegral . p2))
 
-onMouseDown' :: Monoid a => (a -> action) -> DiaAttr a action
-onMouseDown' f =
-  DiaAttr
-    (\dia t ->
-       on
-         "mousedown"
-         mouseEventDecoder
-         (\coords ->
-            f ((sample dia . transform (inv t) . fmap fromIntegral . p2) coords)))
-
-onMouseMove :: (P2 Double -> action) -> DiaAttr a action
-onMouseMove f =
-  DiaAttr
-    (\dia t ->
-       on
-         "mousemove"
-         mouseEventDecoder
-         (\coords -> (f . transform (inv t) . fmap fromIntegral . p2) coords))
-
 data DiaAttr a action =
   DiaAttr (QDiagram MisoSvg V2 Double a -> Transformation V2 Double -> Attribute action)
+
+onMouseDown :: (P2 Double -> action) -> DiaAttr a action
+onMouseDown = pos "mousedown"
+
+onMouseDown' :: Monoid a => (a -> action) -> DiaAttr a action
+onMouseDown' = query "mousedown"
+
+onMouseUp :: (P2 Double -> action) -> DiaAttr a action
+onMouseUp = pos "mouseup"
+
+onMouseUp' :: Monoid a => (a -> action) -> DiaAttr a action
+onMouseUp' = query "mouseup"
+
+onMouseMove :: (P2 Double -> action) -> DiaAttr a action
+onMouseMove = pos "mousemove"
+
+onMouseMove' :: Monoid a => (a -> action) -> DiaAttr a action
+onMouseMove' = query "mousemove"
 
 misoDia  :: Monoid' a => Options MisoSvg V2 Double -> QDiagram MisoSvg V2 Double a -> [DiaAttr a act] -> View act
 misoDia opts dia diaAttrs =
