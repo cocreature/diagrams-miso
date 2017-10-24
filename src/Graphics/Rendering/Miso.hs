@@ -93,7 +93,9 @@ renderSeg (Cubic  (V2 x0 y0) (V2 x1 y1) (OffsetClosed (V2 x2 y2))) =
          , " ", show x2, " ", show y2]
 
 renderText :: Text Double -> RenderM
-renderText (Text tt tAlign str) = return [ Element "text" attrs [ SvgText str ] ]
+renderText (Text tt tAlign str) = do
+    styles <- ask
+    return [ Element "text" (attrs <> renderTextStyles styles) [ SvgText str ] ]
   where
    attrs = M.fromList
      [ ("transform", transformMatrix)
@@ -140,6 +142,11 @@ renderStyles s = foldMap ($ s) $
   -- , renderSvgId
   -- , renderSvgClass
   , renderMiterLimit ]
+
+renderTextStyles :: Style v Double -> Attrs
+renderTextStyles s =
+  foldMap ($ s) $
+  [renderFontSize, renderFontSlant, renderFontWeight, renderFontFamily]
 
 renderMiterLimit :: Style v Double -> Attrs
 renderMiterLimit s = renderAttr "stroke-miterlimit" miterLimit
