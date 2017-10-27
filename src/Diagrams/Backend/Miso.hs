@@ -39,6 +39,7 @@ module Diagrams.Backend.Miso
   , svgAttributes
   -- ,svgDefinitions, idPrefix, svgAttributes, generateDoctype
   , misoDia
+  , renderElement
   , onMouseDown
   , onMouseDown'
   , onMouseUp
@@ -186,6 +187,11 @@ misoDia opts dia diaAttrs =
         second toMisoElement (renderDiaT MisoSvg opts dia)
   in mkWidget
        (Element name (map (\(DiaAttr f) -> f dia t) diaAttrs ++ attrs) children)
+
+renderElement :: R.Element -> View act
+renderElement e =
+  let Element name attrs children = toMisoElement e
+  in mkWidget (Element name attrs children)
 
 toMisoAttrs :: M.Map String String -> [Attribute act]
 toMisoAttrs = map (uncurry textProp . bimap ms ms) . M.toList

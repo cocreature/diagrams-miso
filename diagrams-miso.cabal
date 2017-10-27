@@ -21,7 +21,7 @@ Source-repository head
 
 Library
   Exposed-modules:     Diagrams.Backend.Miso
-  Other-modules:       Graphics.Rendering.Miso
+                       Graphics.Rendering.Miso
   Hs-source-dirs:      src
   Build-depends:       aeson
                      , base                 >= 4.9   && < 4.10

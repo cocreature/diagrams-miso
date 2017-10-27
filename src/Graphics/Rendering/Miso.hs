@@ -1,5 +1,6 @@
 {-# LANGUAGE CPP               #-}
 {-# LANGUAGE ConstraintKinds   #-}
+{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE FlexibleContexts  #-}
 {-# LANGUAGE GADTs             #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -31,21 +32,22 @@ module Graphics.Rendering.Miso
     , getNumAttr
     ) where
 
-import           Data.List (intercalate)
-
 import           Control.Monad.Reader as R
+import           Data.List (intercalate)
 import           Data.Map (Map)
 import qualified Data.Map as M
 import           Diagrams.Core.Transform (matrixHomRep)
 import           Diagrams.Prelude hiding (Attribute, Render, with, text)
 import           Diagrams.TwoD.Path (getFillRule)
 import           Diagrams.TwoD.Text
+import           GHC.Generics (Generic)
 
 data Element = Element
                String
                (Map String String)
                [Element]
   | SvgText String
+  deriving (Eq, Show, Generic)
 
 type RenderM = Reader (Style V2 Double) [Element]
 
