@@ -140,7 +140,7 @@ mouseEventDecoder :: Decoder (Int, Int)
 mouseEventDecoder =
   Decoder
     (withObject "event" $ \o -> liftA2 (,) (o .: "clientX") (o .: "clientY"))
-    mempty
+    (DecodeTarget [])
 
 query :: Monoid a => MisoString -> (a -> action) -> DiaAttr a action
 query event f =
